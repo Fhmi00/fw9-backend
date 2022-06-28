@@ -12,11 +12,12 @@ app.get('/', (req,res)=> {
     })
 })
 
-app.post('/', (req,res)=> {
-    console.log(req.body)
-    return res.json({
-        success: true,
-        massage: 'posted data success to send'
+app.use('/', require('./src/routes'))
+
+app.use('*', (req, res)=> {
+    return res.status(404).json({
+        success: false,
+        massage: 'resource not found'
     })
 })
 
