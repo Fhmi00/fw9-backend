@@ -1,5 +1,5 @@
-const response = require('../helpers/standardresponse')
+const response = require('../helpers/standardresponse');
 
 exports.getAllUsers = (req, res) => {
-    return response(res, 'message from standard response',404)
-}
+    return response(res, 'message from standard response',404);
+};
