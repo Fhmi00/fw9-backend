@@ -1,6 +1,6 @@
 const transactions = require('express').Router();
 
-transactionController = require('../controllers/transactions');
+const transactionController = require('../controllers/transactions');
 
 transactions.get('/', transactionController.getAllTransactions);
 
