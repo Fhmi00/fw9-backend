@@ -13,3 +13,10 @@ exports.createUser = (req, res) => {
     return response(res, 'create user succesfully', results[0]);
   });
 };
+
+exports.editUser = (req, res) => {
+  const {id} = req.params;
+  userModel.updateUser(id, req.body, (results) => {
+    return response(res, 'Update data success!', results);
+  });
+};
