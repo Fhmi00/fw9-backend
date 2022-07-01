@@ -11,7 +11,7 @@ const response = (res, msg, results, status=200) => {
   };
 
   if(results) {
-    data.results = results ;
+    data.results = results;
   }
 
   return res.status(status).json(data);
