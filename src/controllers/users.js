@@ -9,22 +9,25 @@ exports.getAllUsers = (req, res) => {
   });    
 };
 
+exports.getUserById = (req, res) => {
+  const {id} = req.params;
+  userModel.getUserById(id, (err, results) => {
+    if(results.rows.length > 0) {
+      return response(res, 'user detail', results.rows[0]);
+    } else {
+      return res.redirect('/404');
+    }
+  });
+};
 
 exports.createUser = (req, res) => {
-  const validaton = validationResult(req);
-  if(!validaton.isEmpty()){
-    return response(res, 'error occured', validaton.array(), 400);
+  const validation = validationResult(req);
+  if(!validation.isEmpty()){
+    return response(res, 'error occured', validation.array(), 400);
   }
   userModel.createUser(req.body, (err, results) => {
     if(err) {
-      if(err.code === '23505' && err.detail.includes('email')) {
-        const eres = errResponse('Email already exist', 'email');
-        return response(res, 'error', eres, 400);
-      } else if(err.code === '23505' && err.detail.includes('username')){
-        const eres = errResponse('username already exist', 'username');
-        return response(res, 'error', eres, 400);
-      }
-      return response(res, 'error', null, 400);
+      return errResponse(err, res);
     } else{
       return response(res, 'create user succesfully', results[0]);
     }

@@ -7,6 +7,12 @@ exports.getAllUsers = (cb)=>{
   });
 };
 
+exports.getUserById = (id, cb) => {
+  db.query('SELECT * FROM users WHERE id=$1', [id], (err, res) => {
+    cb(err, res);
+  });
+};
+
 exports.createUser = (data, cb) => {
   const q = 'INSERT INTO users(email, password, username, pin) VALUES ($1, $2, $3, $4) RETURNING *';
   const val = [data.email, data.password, data.username, data.pin];
