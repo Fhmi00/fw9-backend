@@ -1,9 +1,24 @@
-const errResponse = (msg, param, location = 'body') => [
+const response = require('./standardresponse');
+
+const errorHandling = (msg, param, location = 'body') => [
   {
     msg,
     param,
     location
   }
 ];
+
+const errResponse = (err, res) => {
+  if(err.code === '23505' && err.detail.includes('email')) {
+    const eres = errorHandling('Email already exist', 'email');
+    return response(res, 'error', eres, 400);
+  }
+  if(err.code === '23505' && err.detail.includes('username')){
+    const eres = errorHandling('username already exist', 'username');
+    return response(res, 'error', eres, 400);
+  }
+  console.log(err);
+  return response(res, 'error', null, 400);
+};
 
 module.exports = errResponse;
