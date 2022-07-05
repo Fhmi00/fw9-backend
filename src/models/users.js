@@ -1,9 +1,18 @@
 const db = require('../helpers/db');
 
-exports.getAllUsers = (cb)=>{
-  db.query('SELECT * FROM users ORDER BY id ASC', (err, res) => {
+// eslint-disable-next-line no-undef
+const {LIMIT_DATA} = process.env;
+
+exports.getAllUsers = (keyword, limit=parseInt(LIMIT_DATA), offset=0, cb)=>{
+  db.query(`SELECT * FROM users WHERE email LIKE \'%${keyword}%\' ORDER BY id ASC LIMIT $1 OFFSET $2`, [limit, offset] , (err, res) => {
     // console.log(err);
     cb(res.rows);
+  });
+};
+
+exports.countAllUsers = (keyword, cb) => {
+  db.query(`SELECT * FROM users WHERE email LIKE \'%${keyword}%\'`, (err, res) => {
+    cb(err, res.rowCount);
   });
 };
 

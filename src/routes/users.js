@@ -1,10 +1,8 @@
 const users = require('express').Router();
-
 const userController = require('../controllers/users');
-
 const {body} = require('express-validator');
-
 const bcrypt = require('bcrypt');
+
 
 const createUserValidator = [
   body('email')
@@ -20,7 +18,7 @@ const createUserValidator = [
 ];
 
 users.get('/:id', userController.getUserById);
-users.get('/', userController.getAllUsers);
+users.get('/', body('limit').toInt(), body('page').toInt(), userController.getAllUsers);
 users.post('/', ...createUserValidator, userController.createUser);
 users.patch('/:id', userController.editUser);
 users.delete('/:id', userController.deleteUser);
