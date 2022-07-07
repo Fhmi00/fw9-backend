@@ -3,6 +3,7 @@ const response = require('../helpers/standardresponse');
 const profileModel = require('../models/profile');
 
 exports.getAllProfile = (req, res) => {
+  console.log(req.file);
   profileModel.getAllProfile((results) => {
     return response(res, 'message from standard response', results);
   });    

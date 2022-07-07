@@ -4,6 +4,8 @@ const express = require('express');
 
 const app = express();
 
+// eslint-disable-next-line no-undef
+global.__basepath = __dirname;
 
 app.use(express.urlencoded({extended: false}));
 
