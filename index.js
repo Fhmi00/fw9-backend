@@ -8,6 +8,7 @@ const app = express();
 global.__basepath = __dirname;
 
 app.use(express.urlencoded({extended: false}));
+app.use(express.static('assets'));
 
 app.get('/', (req,res)=> {
   return res.json({

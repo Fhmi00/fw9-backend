@@ -18,14 +18,11 @@ exports.createProfile = (data, cb) => {
   });
 };
 
-exports.updateProfile = (id, data, cb) => {
-  const q = 'UPDATE profile SET fullname=$1, phonenumber=$2, balance=$3, picture=$4 WHERE id=$5 RETURNING *';
-  const val = [data.fullname, data.phonenumber, data.balance, data.picture, id];
+exports.updateProfile = (id, picture, data, cb) => {
+  const q = 'UPDATE profile SET picture=$1, fullname=$3, balance=$5, phonenumber=$4 WHERE id=$2 RETURNING *';
+  const val = [picture, id, data.fullname, data.phonenumber, data.balance];
   db.query(q, val, (err, res) => {
-    if(err) {
-      console.log(err);
-    }
-    cb(res.rows);
+    cb(err, res);
   });
 };
 

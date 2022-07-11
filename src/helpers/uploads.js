@@ -14,10 +14,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
- 
+  limits: {
+    fileSize : 1 * 1000 * 1000
+  },
   fileFilter: (req, file, cb) => {
-    console.log(file);
-    cb(null, true);
+    const extType = ['image/png', 'image/jpeg', 'image/webp'];
+    if(extType.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      const err = new Error('the file you uploaded is not image');
+      cb(err, false);
+    }
   }
 });
 
