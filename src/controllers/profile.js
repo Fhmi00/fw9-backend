@@ -1,6 +1,6 @@
 const response = require('../helpers/standardresponse');
 const profileModel = require('../models/profile');
-const {validationResult} = require('express-validator');
+// const {validationResult} = require('express-validator');
 const upload = require('../helpers/uploads');
 
 exports.getAllProfile = (req, res) => {
@@ -25,11 +25,14 @@ exports.createProfile = (req, res) => {
 
 exports.editProfile = (req, res) => {
   const {id} = req.params;
-  const eror = validationResult(req);
-  if(!eror.isEmpty()) {
-    return response(res, 'validation error', eror.array(), null, 400);
+  
+
+  let filename = null;
+  if(req.file){
+    filename = req.file.filename;
   }
-  profileModel.updateProfile(id, req.file.filename, req.body, (err, results) => {
+
+  profileModel.updateProfile(id, filename, req.body, (err, results) => {
     if(err){
       return response(res, `update failed: ${err.message}`,null, null, 400);
     }

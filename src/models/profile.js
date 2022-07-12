@@ -19,8 +19,25 @@ exports.createProfile = (data, cb) => {
 };
 
 exports.updateProfile = (id, picture, data, cb) => {
-  const q = 'UPDATE profile SET picture=$1, fullname=$3, balance=$5, phonenumber=$4 WHERE id=$2 RETURNING *';
-  const val = [picture, id, data.fullname, data.phonenumber, data.balance];
+  let val = [id];
+  const filtered = {};
+  const obj = {
+    picture,
+    fullname: data.fullname,
+    phonenumber: data.phonenumber,
+    balance: data.balance
+  };
+
+  for(let x in obj) {
+    if(obj[x]!==null){
+      filtered[x] = obj[x];
+      val.push(obj[x]);
+    }
+  }
+
+  const key = Object.keys(filtered);
+  const finalResult = key.map((o, ind) => `${o}=$${ind+2}`);
+  const q = `UPDATE profile SET ${finalResult} WHERE id=$1 RETURNING *`;
   db.query(q, val, (err, res) => {
     cb(err, res);
   });
